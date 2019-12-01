@@ -1,0 +1,218 @@
+﻿1. What is Polymorphism ? Try to explain in Mandarin.
+物件導向程式有三個機制(Object-Oriented Programming, OOP) : 封裝(encapsulation)、繼承 (inheritance)、多型(polymorphism)
+這三者互相牽連，要先有封裝才會有繼承，有繼承後才有多型。
+
+多型定義如下：
+一個訊息的意義是由接收者來解釋，而不是由訊息發出者來解釋，
+所以，在runtime時只要接受者換成不同的物件或是instance，系統的行為就會改變，具有這樣的特性就稱之為polymorphism。
+
+程式實作面:
+多型伴隨著一定是有父子類別的關係，或介面跟實做的關係，藉由overriding子類別會將父類別的方法重新定義來符合自身所需。
+也就是說有直接或間接繼承關係的兩個類別，子類別的 method 將父類別的 method 予以override，
+=>利用父類別的型態->接受子類別的物件->做相同的動作->引發不同的行為就符合多型。
+
+2. Here are the 7 important lifecycle methods of an Activity :
+i. onCreate()
+ii. onStart()
+iii. onResume()
+iv. onPause()
+v. onStop()
+vi. onDestroy()
+vii. onRestart()
+Try to explain when are they called during the lifecycle of Activity.
+
+<各種方法被呼叫的時機做整理>
+=>當Activity準備要產生時，先呼叫onCreate。
+=>Activity產生後（還未出現在手機螢幕上），呼叫onStart。
+=>當Activity出現手機上後，呼叫onResume。
+=>當使用者按下返回鍵結束Activity時， 先呼叫onPause。
+=>當Activity從螢幕上消失時，呼叫onStop。
+=>最後完全結束Activity之前，呼叫onDestroy。
+=>當出現對話框或其他提醒，Activity是部份可見，但無法使用時，呼叫onPause。
+=>對話框或提示消失，呼叫onResume後，Activity才完全可見。
+
+<幾種情況下life cycle的運作>
+a : 開啟應用程式A      onCreate() -> onStart() -> onResume()
+b : 點擊彈出視窗or提醒 onPause()
+c : 回到應用程式A      onResume()
+d : 點擊主畫面鍵       onPause() -> onStop()
+e : 返回應用程式A      onRestart() -> onStart() -> onResume()
+f : 旋轉螢幕           onPause() -> onStop() -> onDestroy() -> onCreate() -> onStart() -> onResume()
+g : 點擊返回鍵結束     onPause() -> onStop() -> onDestroy()
+
+
+
+3. What is the Android Jetpack ?
+在Anroid開發時，開發者會碰到一些問題:產品交互、用戶體驗、代碼結構、數據獲取、數據存儲、網絡優化、任務調度等等，
+雖然在現在的階段這些問題已經有了很好的解決和優化，也有很多開發者的開源組件方便開發者去使用，
+但這些開源組件難免會有其不足之處，
+Google 為了幫助 Android 開發者更快更好地開發 App，
+推出了一系列庫和工具，這些庫和工具的集合稱為Android Jetpack，
+Android Jetpack及為google提供的官方處理方法。
+
+Android Jetpack主要有4個分類，每個類都包含不同數量的元件，各個元件提供特定功能
+
+(a)Foundation : 提供向後兼容，支援 Kotlin，測試相關功能
+AppCompat（向後兼容）
+Android KTX（編寫更簡潔的Kotlin）
+Multidex （多線處理dex問題）
+Test（測試）
+
+(b)Architecture : 提供建立穩固，可測試，可維護性高的 App
+Data Bingding（數據綁定）
+Room（數據庫）
+WorkManager（後臺任務管家）
+Lifecycle（生命周期）
+Navigation（導航）
+Paging（分頁）
+Data Binding（數據綁定）
+LiveData（底層數據通知）
+ViewModel（以生命周期的方式管理界面的相關數據）
+
+(c)Behavior : 讓 App 可和標準 Android 服務集成
+Download manager（下載給管理器）
+Media & playback（媒體和撥放）
+Notifications（通知）
+Permissions（權限）
+Preferences（偏好設置）
+Sharing（共享）
+Slices
+
+(d)UI : 提供 widgets 讓 App 使用起來不僅簡單且有趣
+Animation & transitions（動畫和過渡）
+Auto（Auto組件）
+Emoji（標籤）
+Fragment
+Layout（布局）
+Palette（調色盤）
+TV
+Wear OS by Google（穿戴設備）
+
+透過應用這些元件可以幫助您寫出最佳實踐，避免樣板代碼並簡化複雜任務，讓開發者專注於需要關心的代碼。
+
+Android Jetpack組件的優勢：
+(a)輕鬆管理應用程式的生命周期
+(b)構建可觀察的數據對象，以便在基礎資料庫更改時通知視圖
+(c)存儲在應用程式輪換中未銷毀的UI相關數據，在介面重建後恢複數據
+(d)輕鬆的實現SQLite資料庫
+(e)系統自動調度後台任務的執行，優化使用性能
+(f)加速Android開發進度
+
+
+
+
+4. Key concepts in Android Development : Try to research them and explain briefly.
+<Activity>
+(a)一個activity通常是一個單獨的螢幕，可以讓用戶點擊和各種滑動操作，具有Q2的生命週期
+(b)activity之間通過Intent進行通訊
+(c)android中每一個Activity都必須在AndroidManifest.xml配置文件中聲明，否則系統不識別也不執行此Activity
+
+<Service>
+(a)可以在後台長時間運行操作而沒有用戶介面的應用組件
+(b)Service分為兩種工作狀態，
+   一種是啟動狀態，當有組件啟動調用方法啟動此狀態時，生命週期與啟動它的組件無關，可無限運行直至方法被停止
+   一種是綁定狀態，主要用於其他组件和 Service 的交互，與調用者綁定在一起，調用者退出後服務也終止
+
+<Content Provider>
+(a)android平台提供了Content Provider使一個應用程序的指定數據集提供给其他的應用程序。
+   其他應用程序可通過ContentResolver類從該內容提供者中獲取或存入數據。
+(b)只有需要在多個應用程序間共享數據才需要内容提供者。
+   例如，通訊數據被多個應用程序使用，必須儲存在同一個内容提供者中。它的好處是統一數據訪問方式。
+
+<Broadcast Receiver>
+(a)在Android系統中，廣播(broadcast)是在組件之間傳播數據的一種機制，
+   Broadcast Receiver是對發送出來的broadcast進行過濾、接受、響應的組件。
+(b)Broadcast Receiver沒有用戶介面。然而，他們可啟動一個activity或serice來響應接收到的訊息，或者用NotificationManager来通知用戶。
+
+<Notification>
+(a)Android系統提供一種提示使用者訊息的服務，稱為「通知:Notification」，這是一種Android系統內建的服務，
+   應用程式在需要的時候可以請系統送出一個通知，它會顯示在裝置的狀態列。你可以設定通知的標題、內容和圖示，
+   也可以設定系統發出通知的時候，是否使用震動、音效與閃燈的效果。
+(b)NotificationManager :負責整個 Android 系統的通知控管機制。
+   Notification : 用來儲存相關設定屬性(如是否閃燈、震動…)，當作真正通知訊息主體之類別。
+   Notification.Builder : API level 11 以後被指定用來建構 Notification，捨棄了直接宣告 notification 再透過 setLatestEventInfo 方法的方式。
+
+<Runtime Permission>
+(a)APP一般不會擁有任何存取使用者相關資料的權限，如照片、相機...等等，
+   而權限類型分為四種 :一般型權限(normal permissions)
+                       簽署型權限
+                       危險型權限(dangerous permissions)
+                       特殊權限
+
+   請求方式分為兩種  : 安裝時期的權限請求 install time permission
+                       執行中的權限請求: Runtime Permission
+
+(b)Runtime Permission及時權限索取:
+   App 在使用到需要某些特定權限的功能時， 需要"動態"向使用者要求授予。
+   這樣子的好處是使用者不用在第一次安裝 App 時，就一股腦的將所有權限都给了 App。
+
+<ANR>
+(a)ANR(Application Not responding)是指應用程序未響應，android系統對於一些事件需要在一定時間內完成，
+   如果超過預定時間未能得到有效饗應，都會造成ANR，這時會彈出一個提示框，告知用戶此應用程式當前未響應。
+(b)ANR觸發場景
+   Service Timeout:前台服務在20s内未、後台服務在200s內未執行完成；
+   BroadcastQueue Timeout：前台廣播在10s内未執行完成
+   ContentProvider Timeout：内容提供者,在publish過超時10s;
+   InputDispatching Timeout: 輸入事件分發超過5s，包括案件和觸摸事件。
+
+<OOM>
+(a)Out Of Memory(內存溢出)，android系統的每個app的每個進程都有個最大內存限制，如果申請的內存資源超過這個限制，系統就會拋出OOM錯誤。
+(b)常見OOM原因 : 1.加載對象過大
+                 2.相應資源過多，還來不及釋放
+   
+   解決OOM問題的幾個方法 : 1.在內存引用上做些處理，常用的有軟引用、強化引用、弱引用
+                           2.盡量不使用過大的圖片檔
+                           3.動態回收內存
+                           4.自定義內存
+                           5.優化程式碼
+
+<Exception>
+(a)Exception 異常
+(b)java將所有錯誤封裝為一個對象，其根本父類為Throwable，Throwable有兩個子類 : Error和Exception。
+   Exception通常指程式運行時所出現的可預料之意外狀況，基本上都要進行 catch 的動作，然後進行相應處理。
+   Error指在正常情況下，不太可能出現的問題, 絕大部分的 Error都會導致程式處於一種不正常且不可恢復的狀態。
+(c)Exception分兩大類 : Checked Exception=>又稱受檢例外，通常在原始碼中必須顯式地catch 並且處理，這部分算是 compile time 會檢查的部分。
+                       Unchecked Exception=>又稱非受檢例外，就是所謂的 RuntimeException，這種類型的例外通常是可以透過撰寫相應程式以避免的邏輯錯誤，可以根據當下的情境來判斷是不是要 catch，且在 compile time 並不會強制要求要 catch。
+(d)異常處理 : try =>用於捕獲異常
+              catch =>用於處理try捕獲到的異常
+              finally =>不論發生例外與否，皆會執行的程式區塊。
+
+<Material Design>
+(a)Material Design是Google於2014年公佈的一套同時適用於 Android、iOS、Web 等各種平台，同時能適用於手機、平板、電視、電腦螢幕等不同裝置的跨平台 / 裝置的設計規則。
+(b)Material Design 並不是完全的抽象扁平風格，它從物理現實中學習了質感、投影、加速度、紙張的分層等隐喻方法
+(c)通過二维的一些表達，比如投影、動效等建構出出了Z軸（前後）的概念
+(d)使用許多組件，像是FAB(懸浮球)、app bar(應用欄)、Backdrop(背板設計)、cards(卡片式設計)...等。
+
+
+
+5. What is Coroutines ? Why we use it? Try to explain in Mandarin.
+
+假設我們要依序執行functionA->functionB->functionC
+這些程式在main thread上運行，若functionA需要另一個thread的處理且需要耗上不少時間，
+代表需等到functionA執行完成才會輪到functionB->functionC，那在等待 function A的時候 main thread無法做事，
+這樣的行為會讓畫面freeze，時間長一點就會被OS當作壞掉進行異常排除了。
+這時有個方便的解決方案 : Coroutine (協程)
+
+Coroutine是個輕量級的線程，其最典型的特色，是允許 method被暫停(suspended)執行之後再回復(resumed)執行，
+而暫停執行的 method 狀態允許被保留，復原後再以暫停時的狀態繼續執行。
+承上一段所說，就在 main thread 執行到 function A 需要等 另一個 thread 耗時處理的結果，
+那可以先暫停function A，協調讓出 main thread讓main thread去執行其他的事情，
+等到另一條thread的耗時處理結束後得到結果後再回復function A 繼續執行，已得到最後要的結果，這便是 Coroutine的概念。
+
+<Coroutine特性>
+(a)Scope
+指的是協程作用的範圍，可以是作用在 Main thread 或是 IO thread 上，依情況而定，
+又或者希望開更多的 Worker thread，然後是可以在某個控制流(ex. Activity 的生命週期)中可被控制的。
+GlobalScope繼承自CoroutineScope，意思就是整個Coroutine作用的範圍伴隨著Application的生命週期。
+
+(b)Suspend
+若在function前加上suspend，表示這個 function 是可以被 "暫停" 的。
+suspend function可以被其他的suspend function調用，但是不能被一般的 function 調用
+
+(c)Dispatcher
+Dispatcher意思是調度員，其實就是完整包裝好提供開發者輕鬆使用的 CoroutineContext。
+在 Kotlinx coroutine中有四種Dispatcher： 
+Dispatcher.Main：Main thread 的包裝，在 Android 需要操作到 UI thread 通常會用它
+Dispatcher.IO：有別於 Main thread，會另外開一個 worker thread ，通常用在 IO 之類的耗時作業。
+Dispatcher.Default：取決於調用它的人，IO thread就會跑在IO Thread 上，Main thread 就會跑在 Main thread。
+Dispatcher.Unconfined：unconfined有不受限制之意，通常會跑在執行該coroutine的thread上，但是在 suspend後被回復可能會跑到另一個 thread 上，使用上需要注意。
